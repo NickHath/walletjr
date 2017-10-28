@@ -1,7 +1,7 @@
 
 .header{
     width: 100%;
-    height: 90px;
+    height: 74px;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -10,13 +10,14 @@
     font-weight: 800px;
     color: #ffffff;
     background: #2c3e50;
-
+    
 }
 button{
     background: transparent;
     border: none;
     font-size: 32px;
     color: #ffffff;
+    padding-bottom: 10px;
 }
 
 .hleft{
@@ -63,4 +64,14 @@ button{
 }
 .websiteDescription{
 
+}
+.about{
+color: #212529;
+font-size: 24px;   
+padding: 170px 50px      
+}
+.aboutHeader{
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700; 
 }
