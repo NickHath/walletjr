@@ -14,6 +14,16 @@ handleClick(){
     }).catch((err) => console.log(err))
   }
 
+  findPos(obj) {
+    var curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    return [curtop];
+    }
+}
+
   render() {
 
     return (
@@ -33,10 +43,10 @@ handleClick(){
                 </h1>
                 </div>
             <div className = 'websiteDescription'>
-                <h3>Description</h3>
+                <div onClick={() => window.scroll(0,this.findPos(document.getElementById("about")))}><i className="fa fa-chevron-circle-down fa-3"></i></div>
             </div>
         </div>
-        <div className = 'about'>
+        <div id = 'about'>
             <h1 className = 'aboutHeader'>
                 About
             </h1>

@@ -12,11 +12,14 @@ class Dashboard extends Component {
 
 
 
-    componentDidMount(){
+    componentWillMount(){
         
                 this.props.getUserInfo();
                 console.log(this.props.user);
                 axios.post('/api/createAccount', this.props.user)
+                if(this.props.user.id){
+                axios.get(`/api/getAccountCards/3`)
+                .then((resp) => console.log(resp))}
                 
               }
 
@@ -78,7 +81,7 @@ class Dashboard extends Component {
 function mstp(state){
     
     return {
-                        user: state.user
+         user: state.user
 
     }
   }

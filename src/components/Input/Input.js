@@ -3,11 +3,36 @@ import './Input.css'
 import { getUserInfo } from '../../ducks/reducer'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-
+import axios from 'axios'
  class Input extends Component {
+
+constructor(){
+  super();
+
+  this.state =({
+    firstName: "",
+    lastName: "",
+    email: ''
+  })
+  this.handleSubmit = this.handleSubmit.bind(this);
+}
 
 componentWillMount() {
     
+}
+handleSubmit(e){
+  e.preventDefault() // using this prevents the form from refreshing the page on submit
+  this.setState({
+    firstName: this.firstname.value,
+    lastName: this.lastname.value
+  })
+  var users = {
+    firstName: this.state.firstName,
+    lastName: this.state.lastName,
+    
+  }
+
+  axios.post('/api/addAccount', users)
 }
 
 
@@ -17,7 +42,7 @@ componentWillMount() {
       
       <div className='input_wrapper'>
         <div className="input_header">
-                  <Link to = '/'>
+                  <Link to = '/Dashboard'>
                     <div className='leftText'> WalletJr</div>
                     </Link>
                     <div className='rightText'>Log Out</div>
@@ -26,10 +51,18 @@ componentWillMount() {
                <div className='accountTitle'>
                 <h1>ACCOUNT INFORMATION</h1>
                 </div>
-            <input className='firstName' placeholder='First Name'/>
-            <input className='lastName' placeholder='Last Name'/>
-            <input className='email' placeholder='Email'/>
-            <button className='btn'>Submit</button>
+                <form onSubmit={ this.handleSubmit }>
+            <input className='firstName'  placeholder='First Name'
+            ref={(input) => this.firstname = input}/>
+            <input className='lastName' placeholder='Last Name'
+            ref={(input) => this.lastname = input}/>
+           
+            <button className='btn' value = "submit" >Submit</button>
+            
+            </form>
+            <Link to = '/DashBoard'>
+            <button> leave page</button>
+            </Link>
         </div>
        
         </div>
