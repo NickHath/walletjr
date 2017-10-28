@@ -99,7 +99,7 @@ app.get("/auth/me", (req, res)=>{
 })
 app.get('/auth/logout', (req, res) => {
     req.logOut();
-    res.redirect('http://localhost:3000/')
+    return res.redirect(302, 'http://localhost:3000/#/')
 })
 
 // --------------------------//
@@ -137,6 +137,7 @@ app.post('/api/modifyStatus/:type', (req, res) => {
     res.status(200).send(data);
   }))
 });
+
 
 app.get('/api/getAccountCards/:id', (req, res) => {
   let PRN;
@@ -179,6 +180,7 @@ app.post('/api/debitAccount/:id', (req, res) => {
       })
     });
 })
+
 
 const PORT = 4200;
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
