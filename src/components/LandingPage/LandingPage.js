@@ -43,7 +43,7 @@ handleClick(){
                 </h1>
                 </div>
             <div className = 'websiteDescription'>
-                <div onClick={() => window.scroll(0,this.findPos(document.getElementById("about")))}><h3>Description</h3></div>
+                <div onClick={() => window.scroll(0,this.findPos(document.getElementById("about")))}><i className="fa fa-chevron-circle-down fa-3"></i></div>
             </div>
         </div>
         <div id = 'about'>
