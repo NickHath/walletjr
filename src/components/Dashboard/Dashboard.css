@@ -41,4 +41,26 @@
     color: #ffffff;
 }
 
+.userCard {
+    width: 500px;
+    height: 200px;
+    background-color: rgb(155, 228, 233);
+    border-radius: 15px;
+}
+
+.ccImage {
+    width: 100px;
+    height: 80px;
+    float: right;
+  
+
+}
+
+.cardName {
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    float:left;
+    margin-left: 10px;
+}
+
 

@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import './Dashboard.css'
+import logo from './walletj-cc.png'
+
+
+
 
 export default class Dashboard extends Component {
 
@@ -12,12 +17,15 @@ export default class Dashboard extends Component {
     return (
         <div >
         <div className = "dash_header">
-            <div className='leftText'> Name</div>
-            <div className='rightText'>This is the Header</div>
+            <div className='leftText'> Walletjr</div>
+            <div className='rightText'>Log Out</div>
         </div>
         <div className = "dash_body">
             
-            <div></div>
+            <div className='userCard'>
+                <div className='cardName'>userName</div>
+                <img src={logo} className='' alt=''/>
+            </div>
                
                 </div>
             <div>
@@ -25,7 +33,7 @@ export default class Dashboard extends Component {
             </div>
         </div>
 
-      </div>
+      
     )
   }
 }
