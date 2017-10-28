@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
 import './Dashboard.css'
 import logo from './walletj-cc.png'
-
-
-
-
-export default class Dashboard extends Component {
-
-=======
 import {getUserInfo} from '../../ducks/reducer'
 import {connect} from 'react-redux'
+
+
+
  class Dashboard extends Component {
->>>>>>> f17ada2a86f83c54ca2035562c5cb41f2182283c
+
+
 
 
     componentDidMount(){
