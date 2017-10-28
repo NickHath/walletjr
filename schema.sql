@@ -5,5 +5,6 @@ create table users(
     last_name varchar(255),
     email varchar(255),
     img varchar(255),
-    auth_id varchar(255)
+    auth_id varchar(255),
+    primary_prn varchar(255)
 )

@@ -19,7 +19,6 @@ def processNodeInput():
 def callAPI (endpt, apiParams):
   r = requests.post('https://sandbox-api.gpsrv.com/intserv/4.0/' + endpt, headers=headers, data=apiParams, cert='./server/galileo16.pem')
   parsedResponse = json.loads(r.text)
-  print('ping response code=' + str(parsedResponse['status_code']))
   print(parsedResponse);
   
 # store node json input in a dict, ping API
