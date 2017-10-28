@@ -27,12 +27,12 @@ handleSubmit(e){
     lastName: this.lastname.value
   })
   var users = {
-    firstName: this.state.firstName,
-    lastName: this.state.lastName,
+    first_name: this.state.firstName,
+    last_name: this.state.lastName,
     
   }
 
-  axios.post('/api/addAccount', users)
+  axios.post('/api/addAccount/3', users)
 }
 
 
@@ -56,13 +56,13 @@ handleSubmit(e){
             ref={(input) => this.firstname = input}/>
             <input className='lastName' placeholder='Last Name'
             ref={(input) => this.lastname = input}/>
-           
-            <button className='btn' value = "submit" >Submit</button>
-            
-            </form>
             <Link to = '/DashBoard'>
-            <button> leave page</button>
+            <button className='btn' value = "submit" >Submit</button>
             </Link>
+            </form>
+            
+            
+            
         </div>
        
         </div>
