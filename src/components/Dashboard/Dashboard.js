@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import './Dashboard.css'
+import logo from './walletj-cc.png'
 import {getUserInfo} from '../../ducks/reducer'
 import {connect} from 'react-redux'
+
 import axios from 'axios'
+
  class Dashboard extends Component {
+
+
 
 
     componentDidMount(){
@@ -18,23 +24,25 @@ import axios from 'axios'
 
 
     return (
-        <div className = "dashboard_wrapper">
+        <div >
         <div className = "dash_header">
-            <div>Account Name</div>
-            <div>This is the Header</div>
+            <div className='leftText'> Walletjr</div>
+            <div className='rightText'>Log Out</div>
         </div>
-        <div className = "body">
-            <div><img src="" alt=""/></div>
-            <div>
-                <h1>
-                </h1>
+        <div className = "dash_body">
+            
+            <div className='userCard'>
+                <div className='cardName'>userName</div>
+                <img src={logo} className='' alt=''/>
+            </div>
+               
                 </div>
             <div>
                 <h2></h2>
             </div>
         </div>
 
-      </div>
+      
     )
   }
 }
