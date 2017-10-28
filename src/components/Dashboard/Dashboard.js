@@ -10,16 +10,15 @@ export default class Dashboard extends Component {
 
 
     return (
-        <div className = "dashboard_wrapper">
+        <div >
         <div className = "dash_header">
-            <div>Account Name</div>
-            <div>This is the Header</div>
+            <div className='leftText'> Name</div>
+            <div className='rightText'>This is the Header</div>
         </div>
-        <div className = "body">
-            <div><img src="" alt=""/></div>
+        <div className = "dash_body">
+            
             <div>
-                <h1>
-                </h1>
+               
                 </div>
             <div>
                 <h2></h2>
