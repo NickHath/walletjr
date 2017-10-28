@@ -1,10 +1,10 @@
 const PythonShell = require('python-shell');
 const pythonScript = './server/callAPI.py';
-const pyShell = new PythonShell(pythonScript);
 
 let data;
 
 module.exports = function pythonAPI (endpt, params, cb) {
+  const pyShell = new PythonShell(pythonScript);
   pyShell.send(JSON.stringify(params) + `\n${endpt}`);
   pyShell.on('message', function (message) {
     data = message;
