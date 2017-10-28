@@ -4,7 +4,8 @@ import logo from './walletj-cc.png'
 import { getUserInfo } from '../../ducks/reducer'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-
+import MuiThemeProvider  from 'material-ui/styles/MuiThemeProvider';
+import { Card, CardHeader } from 'material-ui/Card';
 import axios from 'axios'
 
 class Dashboard extends Component {
@@ -30,6 +31,7 @@ class Dashboard extends Component {
 
 
         return (
+            <MuiThemeProvider>
             <div >
                 <div className="dash_header">
                     <Link to = '/'>
@@ -40,10 +42,18 @@ class Dashboard extends Component {
                 <div className="dash_body">
                     <div className='dash_title'>
                         <div>Dashboard</div>
+                        </div>
                         <div className='profile_info'>
-                    { this.props.user ? <img className='avatar' alt='' src={this.props.user.img} /> : null }
-                    { this.props.user ? this.props.user.user_name : null }
-                    </div>
+                            <Card>
+                         <CardHeader
+                        title={this.props.user.user_name}
+                        avatar={this.props.user.img}
+                       
+                        />
+                        </Card>
+                    {/* { this.props.user ? <img className='avatar' alt='' src={this.props.user.img} /> : null }
+                    { this.props.user ? this.props.user.user_name : null } */}
+                    
                     </div>
                     <div className='cards'>
                     <div className='newCard'>Add New Card</div>
@@ -63,7 +73,7 @@ class Dashboard extends Component {
                         
 
                     </div>
-
+                    </MuiThemeProvider>
 
                     )
   }

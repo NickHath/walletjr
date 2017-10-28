@@ -11,6 +11,7 @@
     font-weight: 800px;
     color: #ffffff;
     background: #2c3e50;
+    text-decoration: none;
 
 }
 
@@ -20,9 +21,11 @@
     color: rgb(255, 255, 255);
     border-radius: 14px;
     background: #378e84;
-    margin-bottom: 150px;
-    float: left;
+    margin-left: 411px;
     width: 210px;
+    display: flex;
+    justify-content: center;
+    
 }
 
 .avatar {
@@ -37,6 +40,8 @@
     color: rgb(20, 43, 71);
     margin-left: 20px;
     margin-top: 20px;
+    margin-bottom: 150px;
+    width: 200px;
 }
 
 
@@ -57,14 +62,14 @@
     padding: 100px;
     background: transparent;
     border: none;
-    font-size: 32px;
+    font-size: 50px;
     color: #ffffff;
 }
 
 .dash_body{
     background: #18bc9c;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     height: 100vh;
     color: #ece5e5;
 }

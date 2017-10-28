@@ -39,6 +39,7 @@ handleSubmit(e){
 
   render() {
     return (
+      
       <div className='input_wrapper'>
         <div className="input_header">
                   <Link to = '/Dashboard'>
@@ -65,7 +66,7 @@ handleSubmit(e){
         </div>
        
         </div>
-        
+       
      
     )
   }
