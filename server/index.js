@@ -56,25 +56,31 @@ app.use(cors());
 
 const baseURL = 'https://sandbox-api.gpsrv.com/intserv/4.0/';
 let data = {
-  params: {
+  // params: {
     'apiLogin': process.env.API_LOGIN,
     'apiTransKey': process.env.API_TRANS_KEY,
     'providerId': process.env.API_PROVIDER_ID,
     'prodId': process.env.API_PRODID
-  }
+  // }
 };
 
-const https = require('https');
-const fs = require('fs')
+// const https = require('https');
+// const fs = require('fs')
 
-var agent = new https.Agent({
-  ca: fs.readFileSync('./galileo16.pem')
-});
-console.log(fs.readFileSync('./galileo16.pem').toString())
+// var agent = new https.Agent({
+//   ca: fs.readFileSync('./galileo16.pem'),
+//   params: {
+//     'apiLogin': process.env.API_LOGIN,
+//     'apiTransKey': process.env.API_TRANS_KEY,
+//     'providerId': process.env.API_PROVIDER_ID,
+//     'prodId': process.env.API_PRODID
+//   }
+// });
+// console.log(fs.readFileSync('./galileo16.pem').toString())
 
 
-axios.post(baseURL + 'ping', { agent })
-     .then(res => console.log(res));
+// axios.post(baseURL + 'ping', { agent })
+//      .then(res => console.log(res));
 
 
 
@@ -94,21 +100,22 @@ axios.post(baseURL + 'ping', { agent })
 //   'prodId': process.env.API_PRODID
 // };
 
-// var fs = require('fs'); 
-// var https = require('https'); 
-// var options = { 
-//     hostname: 'sandbox-api.gpsrv.com', 
-//     port: 443, 
-//     path: '/intserv/4.0/ping', 
-//     method: 'POST', 
-//     ca: fs.readFileSync('galileo16.pem') 
-// }; 
-// var req = https.request(options, function(res) { 
-//     res.on('data', function(data) { 
-//         process.stdout.write(data); 
-//     }); 
-// }); 
-// req.end();
+var fs = require('fs'); 
+var https = require('https'); 
+var options = { 
+    hostname: 'sandbox-api.gpsrv.com', 
+    port: 443, 
+    path: '/intserv/4.0/ping', 
+    method: 'POST', 
+    ca: fs.readFileSync('galileo16.pem'),
+    body: `apiLogin=${process.env.API_LOGIN}&apiTransKey=${process.env.API_TRANS_KEY}&providerId=${process.env.API_PROVIDER_ID}`
+}; 
+var req = https.request(options, function(res) { 
+    res.on('data', function(data) { 
+        process.stdout.write(data); 
+    }); 
+}); 
+req.end();
 
 // massive(process.env.CONNECTION_STRING).then(db => app.set('db', db));
 
