@@ -139,7 +139,7 @@ app.post('/api/addAccount/:id', (req, res) => {
     .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
     .then(() => {
       // add PRN as primaryAccount
-      params = Object.assign(params, {'primaryAccount': PRN, sharedBalance: '0'});
+      params = Object.assign(params, {'primaryAccount': PRN, sharedBalance: '0', 'transactionId': randNum() });
       let data = pythonAPI('createAccount', params, (data) => {
         res.status(200).send(data);
       })
