@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import './Dashboard.css'
 import logo from './walletj-cc.png'
 
@@ -7,8 +8,16 @@ import logo from './walletj-cc.png'
 
 export default class Dashboard extends Component {
 
+=======
+import {getUserInfo} from '../../ducks/reducer'
+import {connect} from 'react-redux'
+ class Dashboard extends Component {
+>>>>>>> f17ada2a86f83c54ca2035562c5cb41f2182283c
 
 
+    componentDidMount(){
+        this.props.getUserInfo();
+      }
 
   render() {
 
@@ -37,3 +46,11 @@ export default class Dashboard extends Component {
     )
   }
 }
+function mstp(state){
+    
+    return {
+      user: state.user
+      
+    }
+  }
+export default connect(mstp, {getUserInfo})(Dashboard);
