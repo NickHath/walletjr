@@ -14,6 +14,7 @@ componentWillMount() {
 
   render() {
     return (
+      
       <div className='input_wrapper'>
         <div className="input_header">
                   <Link to = '/'>
@@ -32,7 +33,7 @@ componentWillMount() {
         </div>
        
         </div>
-        
+       
      
     )
   }
