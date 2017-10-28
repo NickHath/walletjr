@@ -130,6 +130,22 @@ app.post('/api/createAccount', (req, res) => {
   }));
 });
 
+app.post('/api/addAccount', (req, res) => {
+  let PRN;
+  const { first_name, last_name } = req.body;
+  let params = Object.assign({}, baseParams, { 'firstName': first_name, 'lastName': last_name })  ;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      // add PRN as primaryAccount
+      params = Object.assign(params, {'primaryAccount': PRN});
+      let data = pythonAPI('createAccount', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
+
 app.post('/api/modifyStatus/:type', (req, res) => {
   let params = Object.assign({}, req.body, { type: req.params.type * 1 });
   let data = pythonAPI('modifyStatus', params, (data => {
