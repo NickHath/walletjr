@@ -40,7 +40,9 @@ passport.use( new Auth0Strategy({
         }
         else{
             db.create_user([
-                userData.name,
+              userData.nickname,
+              userData.given_name,
+              userData.family_name,
                 userData.email,
                 userData.picture,
                 userData.identities[0].user_id

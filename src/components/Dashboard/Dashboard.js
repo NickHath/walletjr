@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import {getUserInfo} from '../../ducks/reducer'
 import {connect} from 'react-redux'
+import axios from 'axios'
  class Dashboard extends Component {
 
 
     componentDidMount(){
+
         this.props.getUserInfo();
+        console.log(this.props.user);
+        axios.post('/api/createAccount', this.props.user)
+        
       }
 
   render() {
