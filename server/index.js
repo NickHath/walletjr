@@ -108,7 +108,7 @@ app.post('/api/ping', (req, res) => {
   pythonAPI('ping', Object.assign({}, baseParams, { 'transactionId': randNum() }));
 })
 
-app.post('/api/createAccount', (req, res) => {
+app.post('/api/createAccount/:id', (req, res) => {
   // need to run this only one time!!!
   const { user_name, first_name, last_name, email, userID } = req.user;
   let accountData = Object.assign({}, baseParams, {

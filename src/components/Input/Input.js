@@ -55,13 +55,13 @@ handleSubmit(e){
             ref={(input) => this.firstname = input}/>
             <input className='lastName' placeholder='Last Name'
             ref={(input) => this.lastname = input}/>
-           
-            <button className='btn' value = "submit" >Submit</button>
-            
-            </form>
             <Link to = '/DashBoard'>
-            <button> leave page</button>
+            <button className='btn' value = "submit" >Submit</button>
             </Link>
+            </form>
+            
+            
+            
         </div>
        
         </div>
