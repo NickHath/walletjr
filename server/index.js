@@ -8,7 +8,7 @@ const bodyParser = require("body-parser")
     , Auth0Strategy = require('passport-auth0')
     , massive = require("massive");
 
-const pythonAPI = require('./server/pythonAPI.js');
+const pythonAPI = require('./pythonAPI.js');
 
 function randNum() {
   return Math.random().toString(9).substring(8)
