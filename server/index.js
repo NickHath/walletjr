@@ -17,9 +17,9 @@ function randNum() {
 // test data
 let sampleReqBody = {
   transactionId: randNum(),
-  first_name: "Nick",
+  first_name: "TEST",
   last_name: "Hathaway",
-  email: "Nickhath@nickhath.email",
+  email: "TESThath@nickhath.email",
 }
 
 // basic API parameters
@@ -122,7 +122,6 @@ app.post('/api/createAccount', (req, res) => {
     firstName: first_name,
     lastName: last_name,
     email: email,
-    webUid: user_name
   })
   let data = pythonAPI('createAccount', accountData, (data => {
     // put DB logic here!
@@ -130,11 +129,21 @@ app.post('/api/createAccount', (req, res) => {
     let jsonToObj = JSON.parse(data.replace(/u'/g, "'").replace(/'/g, '\"').replace(/none/gi, '"None"'));
     let PRN = jsonToObj['response_data']['new_account\\1']['pmt_ref_no'];
     const db = app.get('db');
+    console.log(req.user);
     db.add_prn([req.user.id, PRN])
+    // db.add_prn([1, PRN])
+      // .then(() => {
+      //   axios.post('/api/modifyStatus/1', Object.assign({}, baseParams, { accountNo: PRN }))
+      //   axios.post('/api/modifyStatus/7', Object.assign({}, baseParams, { accountNo: PRN }))
+      // })
       .then(() => res.status(200).send(PRN));
   }));
-
 });
+
+// app.post('/api/modifyStatus/:type', (req, res) => {
+//   console.log(req.body);
+
+// })
 
 const PORT = 4200;
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
