@@ -1,0 +1,1 @@
+select primary_prn from users where id = $1;
