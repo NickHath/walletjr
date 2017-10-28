@@ -14,14 +14,6 @@ function randNum() {
   return Math.random().toString(9).substring(8)
 }
 
-// test data
-let sampleReqBody = {
-  transactionId: randNum(),
-  first_name: "TEST",
-  last_name: "Hathaway",
-  email: "TESThath@nickhath.email",
-}
-
 // basic API parameters
 const baseParams = {
   'apiLogin': process.env.API_LOGIN,
@@ -110,13 +102,15 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('http://localhost:3000/')
 })
 
+// --------------------------//
 // python endpoints -- galileo
 app.post('/api/ping', (req, res) => {
   pythonAPI('ping', Object.assign({}, baseParams, { 'transactionId': randNum() }));
 })
 
 app.post('/api/createAccount', (req, res) => {
-  const { user_name, first_name, last_name, email, userID } = sampleReqBody;
+  // need to run this only one time!!!
+  const { user_name, first_name, last_name, email, userID } = req.user;
   let accountData = Object.assign({}, baseParams, {
     transactionId: randNum(),
     firstName: first_name,
@@ -124,26 +118,67 @@ app.post('/api/createAccount', (req, res) => {
     email: email,
   })
   let data = pythonAPI('createAccount', accountData, (data => {
-    // put DB logic here!
-    // strip 'u markings from json, replace None with "None", swap ' for "
-    let jsonToObj = JSON.parse(data.replace(/u'/g, "'").replace(/'/g, '\"').replace(/none/gi, '"None"'));
-    let PRN = jsonToObj['response_data']['new_account\\1']['pmt_ref_no'];
+    let PRN = data['response_data']['new_account\\1']['pmt_ref_no'];
     const db = app.get('db');
-    console.log(req.user);
     db.add_prn([req.user.id, PRN])
-    // db.add_prn([1, PRN])
-      // .then(() => {
-      //   axios.post('/api/modifyStatus/1', Object.assign({}, baseParams, { accountNo: PRN }))
-      //   axios.post('/api/modifyStatus/7', Object.assign({}, baseParams, { accountNo: PRN }))
-      // })
-      .then(() => res.status(200).send(PRN));
+      .then(() => {
+        axios.post('http://localhost:4200/api/modifyStatus/1', Object.assign({}, baseParams, { accountNo: PRN, 'transactionId': randNum() }));
+        axios.post('http://localhost:4200/api/modifyStatus/7', Object.assign({}, baseParams, { accountNo: PRN, 'transactionId': randNum() }));
+      })
+      .then(() => res.status(200).send(PRN))
+      .catch(err => err);
   }));
 });
 
-// app.post('/api/modifyStatus/:type', (req, res) => {
-//   console.log(req.body);
+app.post('/api/modifyStatus/:type', (req, res) => {
+  let params = Object.assign({}, req.body, { type: req.params.type * 1 });
+  let data = pythonAPI('modifyStatus', params, (data => {
+    console.log('modifyStatus ' + req.params.type + ':\n' + JSON.stringify(data));
+    res.status(200).send(data);
+  }))
+});
 
-// })
+app.get('/api/getAccountCards/:id', (req, res) => {
+  let PRN;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'includeRelated': '1' });
+      let results = pythonAPI('getAccountCards', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
+
+app.post('/api/creditAccount/:id', (req, res) => {
+  let PRN;  
+  const { amount } = req.body;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'transactionId': randNum(), 'amount': amount, 'debitCreditIndicator': 'C', 'type': 'F' });
+      console.log('params', params);
+      let results = pythonAPI('createAdjustment', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
+
+app.post('/api/debitAccount/:id', (req, res) => {
+  let PRN;  
+  const { amount } = req.body;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'transactionId': randNum(), 'amount': amount, 'debitCreditIndicator': 'D', 'type': 'F' });
+      let results = pythonAPI('createAdjustment', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
 
 const PORT = 4200;
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
