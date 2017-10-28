@@ -125,10 +125,13 @@ app.post('/api/createAccount', (req, res) => {
     webUid: user_name
   })
   let data = pythonAPI('createAccount', accountData, (data => {
-    // put DB logic here!!!
+    // put DB logic here!
     // strip 'u markings from json, replace None with "None", swap ' for "
     let jsonToObj = JSON.parse(data.replace(/u'/g, "'").replace(/'/g, '\"').replace(/none/gi, '"None"'));
-    res.status(200).send(jsonToObj['response_data']['new_account\\1']['pmt_ref_no']);
+    let PRN = jsonToObj['response_data']['new_account\\1']['pmt_ref_no'];
+    const db = app.get('db');
+    db.add_prn([req.user.id, PRN])
+      .then(() => res.status(200).send(PRN));
   }));
 
 });
