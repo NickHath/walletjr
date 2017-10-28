@@ -102,6 +102,7 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('http://localhost:3000/')
 })
 
+// --------------------------//
 // python endpoints -- galileo
 app.post('/api/ping', (req, res) => {
   pythonAPI('ping', Object.assign({}, baseParams, { 'transactionId': randNum() }));
@@ -121,23 +122,19 @@ app.post('/api/createAccount', (req, res) => {
     const db = app.get('db');
     db.add_prn([req.user.id, PRN])
       .then(() => {
-        // duplicate transactions?
-        axios.post('http://localhost:4200/api/modifyStatus/1', Object.assign({}, baseParams, { accountNo: PRN, transactionId: randNum() }));
-        axios.post('http://localhost:4200/api/modifyStatus/7', Object.assign({}, baseParams, { accountNo: PRN, transactionId: randNum() }));
+        axios.post('http://localhost:4200/api/modifyStatus/1', Object.assign({}, baseParams, { accountNo: PRN, 'transactionId': randNum() }));
+        axios.post('http://localhost:4200/api/modifyStatus/7', Object.assign({}, baseParams, { accountNo: PRN, 'transactionId': randNum() }));
       })
       .then(() => res.status(200).send(PRN))
       .catch(err => err);
   }));
 });
 
-// duplicate transactions?
 app.post('/api/modifyStatus/:type', (req, res) => {
   let params = Object.assign({}, req.body, { type: req.params.type * 1 });
   let data = pythonAPI('modifyStatus', params, (data => {
-    pythonAPI('modifyStatus', params, (data) => {
-      console.log(data);
-      // res.status(200).send(data);
-    })
+    console.log('modifyStatus ' + req.params.type + ':\n' + JSON.stringify(data));
+    res.status(200).send(data);
   }))
 });
 
@@ -149,6 +146,35 @@ app.get('/api/getAccountCards/:id', (req, res) => {
     .then(() => {
       let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'includeRelated': '1' });
       let results = pythonAPI('getAccountCards', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
+
+app.post('/api/creditAccount/:id', (req, res) => {
+  let PRN;  
+  const { amount } = req.body;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'transactionId': randNum(), 'amount': amount, 'debitCreditIndicator': 'C', 'type': 'F' });
+      console.log('params', params);
+      let results = pythonAPI('createAdjustment', params, (data) => {
+        res.status(200).send(data);
+      })
+    });
+})
+
+app.post('/api/debitAccount/:id', (req, res) => {
+  let PRN;  
+  const { amount } = req.body;
+  const db = app.get('db');
+  db.find_session_user([req.params.id])
+    .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
+    .then(() => {
+      let params = Object.assign({}, baseParams, { 'accountNo': PRN, 'transactionId': randNum(), 'amount': amount, 'debitCreditIndicator': 'D', 'type': 'F' });
+      let results = pythonAPI('createAdjustment', params, (data) => {
         res.status(200).send(data);
       })
     });
