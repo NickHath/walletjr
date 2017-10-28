@@ -1,80 +1,108 @@
 require('dotenv').config();
-const express = require('express')
-    , bodyParser = require('body-parser')
-    , cors = require('cors')
-    , massive = require('massive')
-    , axios = require('axios')
-    , session = require('express-session');
-
-// API base url and general params for every request
+const bodyParser = require("body-parser")
+    , express = require('express')
+    , session = require('express-session')
+    , passport = require('passport')
+    , Auth0Strategy = require('passport-auth0')
+    , massive = require("massive")
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+}))
 
-// var https = require('https'),                  // Module for https
-// fs =    require('fs');                     // Required to read certs and keys
+app.use(passport.initialize());
+app.use(passport.session());
+massive(process.env.CONNECTION_STRING).then((db) => {
+    app.set('db', db)
+})
 
-// var options = { 
-//     hostname: 'sandbox-api.gpsrv.com', 
-//     port: 443, 
-//     path: '/intserv/4.0/ping', 
-//     method: 'POST', 
-//     ca: fs.readFileSync('galileo16.pem') 
-// }; 
+//--------auth0 strategy--------/
+passport.use( new Auth0Strategy({
+    domain: process.env.AUTH_DOMAIN,
+    clientID: process.env.AUTH_CLIENT_ID,
+    clientSecret:process.env.AUTH_CLIENT_SECRET,
+    callbackURL:process.env.AUTH_CALLBACK
+//check if user exists
+// if they do invoke done with user id
+//if not create new user
+//then invoke done with user id  
+}, function(accessToken, refreshToken, extraParams, profile, done){ 
+    const db = app.get('db');
+    const userData = profile._json;
+    db.find_user([userData.identities[0].user_id]).then( user => {
+        if(user[0]){
+          return  done(null, user[0].id);
+        }
+        else{
+            db.create_user([
+                userData.name,
+                userData.email,
+                userData.picture,
+                userData.identities[0].user_id
+            ]).then(user => {
+                return done(null, user[0].id)
+            })
+        }
+    })
+}))
+passport.serializeUser( function(id, done){
+    done(null, id)
+})
+passport.deserializeUser( function(id, done){
+   app.get('db').find_session_user([id]).then((user) =>{
+    done(null, user[0]);
+    }
+)
+    
+})
+app.get('/auth', passport.authenticate('auth0'))
+app.get('/auth/callback', passport.authenticate('auth0', {
+    successRedirect: 'http://localhost:3000/Dashboard',
+    failureRedirect:'/auth'
+}))
 
-// callback = function(response) {
-// var str = '';    
-// response.on('data', function (chunk) {
-// str += chunk;
-// });
-
-// response.on('end', function () {
-// console.log(str);
-// });
-// }
-
-// https.request(options, callback).end();
-
-
-
-
-
-
-
-
-// app.use(session({
-//   secret: process.env.SECRET,
-//   resave: false,
-//   saveUninitialized: true
-// }))
-
+app.get("/auth/me", (req, res)=>{
+    if(req.user){
+        return res.status(200).send(req.user);
+    }
+    else{
+        return res.status(401).send('need to log in!')
+    }
+})
+app.get('/auth/logout', (req, res) => {
+    req.logOut();
+    res.redirect('http://localhost:3000/')
+})
 // var instance = axios.create({
 //   cert: './galileo16.pem'
 // })
 
-const baseURL = 'https://sandbox-api.gpsrv.com/intserv/4.0/';
-let data = {
-  params: {
-    'apiLogin': process.env.API_LOGIN,
-    'apiTransKey': process.env.API_TRANS_KEY,
-    'providerId': process.env.API_PROVIDER_ID,
-    'prodId': process.env.API_PRODID
-  }
-};
+// const baseURL = 'https://sandbox-api.gpsrv.com/intserv/4.0/';
+// let data = {
+//   params: {
+//     'apiLogin': process.env.API_LOGIN,
+//     'apiTransKey': process.env.API_TRANS_KEY,
+//     'providerId': process.env.API_PROVIDER_ID,
+//     'prodId': process.env.API_PRODID
+//   }
+// };
 
-const https = require('https');
-const fs = require('fs')
+// const https = require('https');
+// const fs = require('fs')
 
-var agent = new https.Agent({
-  ca: fs.readFileSync('./galileo16.pem')
-});
-console.log(fs.readFileSync('./galileo16.pem').toString())
+// var agent = new https.Agent({
+//   ca: fs.readFileSync('./galileo16.pem')
+// });
+// console.log(fs.readFileSync('./galileo16.pem').toString())
 
 
-axios.post(baseURL + 'ping', { agent })
-     .then(res => console.log(res));
+// axios.post(baseURL + 'ping', { agent })
+//      .then(res => console.log(res));
 
 
 
@@ -112,4 +140,29 @@ axios.post(baseURL + 'ping', { agent })
 
 // massive(process.env.CONNECTION_STRING).then(db => app.set('db', db));
 
-app.listen(process.env.PORT, console.log(`Listening on port ${process.env.PORT}`));
+
+// var https = require('https'),                  // Module for https
+// fs =    require('fs');                     // Required to read certs and keys
+
+// var options = { 
+//     hostname: 'sandbox-api.gpsrv.com', 
+//     port: 443, 
+//     path: '/intserv/4.0/ping', 
+//     method: 'POST', 
+//     ca: fs.readFileSync('galileo16.pem') 
+// }; 
+
+// callback = function(response) {
+// var str = '';    
+// response.on('data', function (chunk) {
+// str += chunk;
+// });
+
+// response.on('end', function () {
+// console.log(str);
+// });
+// }
+
+// https.request(options, callback).end();
+const PORT = 4200
+app.listen(PORT, console.log(`Listening on port ${PORT}`));

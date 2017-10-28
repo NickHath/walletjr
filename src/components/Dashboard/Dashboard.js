@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import {getUserInfo} from '../../ducks/reducer'
+import {connect} from 'react-redux'
+ class Dashboard extends Component {
 
-export default class Dashboard extends Component {
 
-
-
+    componentDidMount(){
+        this.props.getUserInfo();
+      }
 
   render() {
 
@@ -29,3 +32,11 @@ export default class Dashboard extends Component {
     )
   }
 }
+function mstp(state){
+    
+    return {
+      user: state.user
+      
+    }
+  }
+export default connect(mstp, {getUserInfo})(Dashboard);
