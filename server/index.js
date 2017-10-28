@@ -130,7 +130,7 @@ app.post('/api/createAccount', (req, res) => {
   }));
 });
 
-app.post('/api/addAccount', (req, res) => {
+app.post('/api/addAccount/:id', (req, res) => {
   let PRN;
   const { first_name, last_name } = req.body;
   let params = Object.assign({}, baseParams, { 'firstName': first_name, 'lastName': last_name })  ;
@@ -139,7 +139,7 @@ app.post('/api/addAccount', (req, res) => {
     .then(result => {if (result.length > 0) { PRN = result[0].primary_prn }})
     .then(() => {
       // add PRN as primaryAccount
-      params = Object.assign(params, {'primaryAccount': PRN});
+      params = Object.assign(params, {'primaryAccount': PRN, sharedBalance: '0'});
       let data = pythonAPI('createAccount', params, (data) => {
         res.status(200).send(data);
       })
