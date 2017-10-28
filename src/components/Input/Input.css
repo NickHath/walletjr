@@ -1,0 +1,78 @@
+.input_wrapper {
+   
+    
+}
+.accountTitle {
+    font-size: 15px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.firstName {
+    height: 30px;
+    width: 300px;
+    border-radius: 20px;
+    border-color: transparent;
+    margin-bottom: 14px;
+    background: #e2e4f3;
+}
+
+.lastName {
+    height: 30px;
+    width: 300px;
+    border-radius: 20px;
+    border-color: transparent;
+    margin-bottom: 14px;
+    background: #e2e4f3;
+}
+
+.email {
+    height: 30px;
+    width: 300px;
+    border-radius: 20px;
+    border-color: transparent;
+    background: #e2e4f3;
+    
+}
+
+
+
+.input_header{
+    width: 100%;
+    height: 90px;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    font-size: 50px;
+    font-weight: 800px;
+    color: #ffffff;
+    background: #2c3e50;
+
+}
+.input_body {
+    background: #18bc9c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    color: #ece5e5;
+
+}
+
+
+.rightText{
+    font-size: 32px;
+    padding: 100px;
+}
+
+.rightText:hover{
+    cursor: pointer;
+    color: #18bc9c; 
+
+}
+
+.leftText{
+    padding: 100px;
+}
