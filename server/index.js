@@ -132,5 +132,5 @@ app.post('/api/createAccount', (req, res) => {
 });
 
 
-const PORT = 4200
+const PORT = process.env.PORT;
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
