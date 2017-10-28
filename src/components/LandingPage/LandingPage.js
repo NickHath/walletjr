@@ -29,7 +29,7 @@ handleClick(){
             </div>
             <div className = 'websiteName'>
                 <h1>
-                    WalletJr.com
+                    WalletJr
                 </h1>
                 </div>
             <div className = 'websiteDescription'>
