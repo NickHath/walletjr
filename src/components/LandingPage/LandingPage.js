@@ -3,6 +3,7 @@ import './LandingPage.css'
 import logo from './254207.svg'
 export default class LandingPage extends Component {
   render() {
+
     return (
       <div className = "LandingPage">
         <div className = "header">
