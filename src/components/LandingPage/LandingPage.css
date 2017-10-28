@@ -12,13 +12,18 @@
     background: #2c3e50;
 
 }
+button{
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #ffffff;
+}
 
 .hleft{
     padding: 100px;
 }
 .hright{
-    font-size: 32px;
-    padding: 100px;
+   padding-right: 100px;
 }
 .hright:hover{
     cursor: pointer;
@@ -48,8 +53,10 @@
 
 .piggy{
     padding-top: 10px;
+    padding-left: 10px;
     width:170px;
-    height:170px;
+    height:170px;  
+
 }
 .websiteName{
  font-size: 50px;
