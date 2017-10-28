@@ -1,24 +1,28 @@
 import React, { Component } from 'react'
 
-export default class LandingPage extends Component {
+export default class Dashboard extends Component {
+
+
+
+
   render() {
 
-   
+
+
     return (
-      <div className = "LandingPage">
-        <div className = "header">
-            <div>Name</div>
-            <div>Header</div>
+        <div className = "dashboard_wrapper">
+        <div className = "dash_header">
+            <div>Account Name</div>
+            <div>This is the Header</div>
         </div>
         <div className = "body">
             <div><img src="" alt=""/></div>
             <div>
                 <h1>
-                    WalletJr.com
                 </h1>
                 </div>
             <div>
-                <h3>Description</h3>
+                <h2></h2>
             </div>
         </div>
 
