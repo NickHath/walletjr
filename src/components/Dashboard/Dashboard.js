@@ -15,12 +15,12 @@ class Dashboard extends Component {
         
                 this.props.getUserInfo();
                 console.log(this.props.user);
-                axios.post('/api/createAccount/3', this.props.user)
-                if(this.props.user.id){
+                axios.post('/api/createAccount', this.props.user)
+                
                 axios.get(`/api/getAccountCards/3`)
                 .then((resp) => console.log(resp))}
                 
-              }
+              
 
 
    

@@ -27,12 +27,12 @@ handleSubmit(e){
     lastName: this.lastname.value
   })
   var users = {
-    firstName: this.state.firstName,
-    lastName: this.state.lastName,
+    first_name: this.state.firstName,
+    last_name: this.state.lastName,
     
   }
 
-  axios.post('/api/addAccount', users)
+  axios.post('/api/addAccount/3', users)
 }
 
 
