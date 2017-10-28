@@ -1,10 +1,35 @@
 require('dotenv').config();
 const bodyParser = require("body-parser")
     , express = require('express')
+    , cors = require('cors')
+    , axios = require('axios')
     , session = require('express-session')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
-    , massive = require("massive")
+    , massive = require("massive");
+
+const pythonAPI = require('./server/pythonAPI.js');
+
+function randNum() {
+  return Math.random().toString(9).substring(8)
+}
+
+// test data
+let sampleReqBody = {
+  transactionId: randNum(),
+  first_name: "Nick",
+  last_name: "Hathaway",
+  email: "Nickhath@nickhath.email",
+}
+
+// basic API parameters
+const baseParams = {
+  'apiLogin': process.env.API_LOGIN,
+  'apiTransKey': process.env.API_TRANS_KEY,
+  'providerId': process.env.API_PROVIDER_ID,
+  'prodId': parseInt(process.env.API_PROD_ID),
+  'transactionId': randNum()
+}
 
 const app = express();
 
@@ -86,6 +111,25 @@ app.get('/auth/logout', (req, res) => {
 })
 
 // python endpoints -- galileo
+app.post('/api/ping', (req, res) => {
+  pythonAPI('ping', Object.assign({}, baseParams, { 'transactionId': randNum() }));
+})
+
+app.post('/api/createAccount', (req, res) => {
+  const { user_name, first_name, last_name, email, userID } = sampleReqBody;
+  let accountData = Object.assign({}, baseParams, {
+    transactionId: randNum(),
+    firstName: first_name,
+    lastName: last_name,
+    email: email,
+    webUid: user_name
+  })
+  let data = pythonAPI('createAccount', accountData, (data => {
+    // put DB logic here!!!
+    res.status(200).json(data)
+  }));
+
+});
 
 
 const PORT = 4200
