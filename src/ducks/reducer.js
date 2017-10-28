@@ -13,6 +13,15 @@ export function getUserInfo(){
   }
 }
 
+const CREATE_USER_INFO = 'CREATE_USER_INFO'
+
+export function createUSerInfo(){
+  const newUser = axios.post("/api/createAccount").then(res => res.data)
+  return{
+    type: CREATE_USER_INFO,
+    payload: newUser
+  }
+}
 
 
 

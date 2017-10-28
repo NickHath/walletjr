@@ -107,7 +107,7 @@ app.get("/auth/me", (req, res)=>{
 })
 app.get('/auth/logout', (req, res) => {
     req.logOut();
-    res.redirect('http://localhost:3000/')
+    return res.redirect(302, 'http://localhost:3000/#/')
 })
 
 // python endpoints -- galileo
@@ -132,6 +132,8 @@ app.post('/api/createAccount', (req, res) => {
   }));
 
 });
+
+
 
 const PORT = 4200;
 app.listen(PORT, console.log(`Listening on port ${PORT}`));

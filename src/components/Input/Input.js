@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import './Input.css'
 import { getUserInfo } from '../../ducks/reducer'
 import { connect } from 'react-redux'
-
-
+import { Link } from 'react-router-dom';
 
  class Input extends Component {
 
@@ -16,9 +15,10 @@ componentWillMount() {
   render() {
     return (
       <div className='input_wrapper'>
-        
         <div className="input_header">
+                  <Link to = '/'>
                     <div className='leftText'> WalletJr</div>
+                    </Link>
                     <div className='rightText'>Log Out</div>
             </div>
                <div className='input_body'>
@@ -28,6 +28,7 @@ componentWillMount() {
             <input className='firstName' placeholder='First Name'/>
             <input className='lastName' placeholder='Last Name'/>
             <input className='email' placeholder='Email'/>
+            <button className='btn'>Submit</button>
         </div>
        
         </div>

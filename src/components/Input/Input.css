@@ -65,6 +65,10 @@
 .rightText{
     font-size: 32px;
     padding: 100px;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #ffffff;
 }
 
 .rightText:hover{
@@ -75,4 +79,14 @@
 
 .leftText{
     padding: 100px;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #ffffff;
+}
+
+.btn {
+    margin: auto 0;
+    height: 12px;
+    width: 12px;
 }
