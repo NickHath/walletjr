@@ -4,16 +4,19 @@ import logo from './walletj-cc.png'
 import { getUserInfo } from '../../ducks/reducer'
 import { connect } from 'react-redux'
 
-
+import axios from 'axios'
 
 class Dashboard extends Component {
 
 
+    componentDidMount(){
+        
+                this.props.getUserInfo();
+                console.log(this.props.user);
+                axios.post('/api/createAccount', this.props.user)
+                
+              }
 
-
-    componentDidMount() {
-        this.props.getUserInfo();
-    }
 
 
    
@@ -28,8 +31,6 @@ class Dashboard extends Component {
                     <div className='leftText'> WalletJr</div>
                     <div className='rightText'>Log Out</div>
                 </div>
-
-
                 <div className="dash_body">
 
                     <div className='newCard'>Add New Card</div>

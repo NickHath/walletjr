@@ -1,6 +1,6 @@
 import axios from 'axios'
 const initialState = {
-    user: {name: 'dsfjkbdfh'}
+    user: {}
 }
 
 const GET_USER_INFO = 'GET_USER_INFO'
@@ -13,13 +13,9 @@ export function getUserInfo(){
   }
 }
 
-// export function addUserInfo(){
-//   const addUser = axios.post('').then(res => res.data)
-//   return {
-//     type: ADD_USER_INFO,
-//     payload: user
-//   }
-// }
+
+
+
 
 export default (state=initialState, action) => {
   switch (action.type){
