@@ -65,10 +65,11 @@ button{
 .websiteDescription{
 
 }
-.about{
+#about{
 color: #212529;
 font-size: 24px;   
-padding: 170px 50px      
+margin: 170px 0;
+padding: 0 100px;     
 }
 .aboutHeader{
     text-align: center;
