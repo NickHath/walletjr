@@ -9,14 +9,18 @@ const bodyParser = require("body-parser")
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
 }))
 
+// set up passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// set up db
 massive(process.env.CONNECTION_STRING).then((db) => {
     app.set('db', db)
 })
@@ -64,12 +68,10 @@ passport.deserializeUser( function(id, done){
 })
 
 app.get('/auth', passport.authenticate('auth0'))
-
 app.get('/auth/callback', passport.authenticate('auth0', {
     successRedirect: 'http://localhost:3000/Dashboard',
     failureRedirect:'/auth'
 }))
-
 app.get("/auth/me", (req, res)=>{
     if(req.user){
         return res.status(200).send(req.user);
@@ -78,11 +80,13 @@ app.get("/auth/me", (req, res)=>{
         return res.status(401).send('need to log in!')
     }
 })
-
 app.get('/auth/logout', (req, res) => {
     req.logOut();
     res.redirect('http://localhost:3000/')
 })
+
+// python endpoints -- galileo
+
 
 const PORT = 4200
 app.listen(PORT, console.log(`Listening on port ${PORT}`));
